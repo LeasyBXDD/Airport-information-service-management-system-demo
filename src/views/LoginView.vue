@@ -1,8 +1,8 @@
 <template>
     <div class="LoginFormCenter">
         <a-form :model="formState" name="normal_login" class="login-form" @finish="onFinish" @finishFailed="onFinishFailed">
-            <a-form-item label="Username" name="username"
-                :rules="[{ required: true, message: 'Please input your username!' }]">
+            <a-form-item label="昵称" name="username"
+                :rules="[{ required: true, message: '请输入昵称' }]">
                 <a-input v-model:value="formState.username">
                     <template #prefix>
                         <UserOutlined class="site-form-item-icon" />
@@ -10,8 +10,8 @@
                 </a-input>
             </a-form-item>
 
-            <a-form-item label="Password" name="password"
-                :rules="[{ required: true, message: 'Please input your password!' }]">
+            <a-form-item label="密码" name="password"
+                :rules="[{ required: true, message: '请输入密码' }]">
                 <a-input-password v-model:value="formState.password">
                     <template #prefix>
                         <LockOutlined class="site-form-item-icon" />
@@ -20,13 +20,13 @@
             </a-form-item>
 
             <a-form-item>
-                <a-form-item name="remember" no-style>
+                <a-form-item name="remember" style="float: right;">
                     <a-checkbox v-model:checked="formState.remember">自动登录</a-checkbox>
                 </a-form-item>
             </a-form-item>
 
-            <a-form-item>
-                <a-button :disabled="disabled" type="primary" html-type="submit" class="login-form-button">
+            <a-form-item style="margin-top: -24px;">
+                <a-button :disabled="disabled" type="primary" html-type="submit" style="width:100%;">
                     登录
                 </a-button>
             </a-form-item>

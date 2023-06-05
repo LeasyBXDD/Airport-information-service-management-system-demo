@@ -3,7 +3,8 @@
     <!-- 侧边栏 -->
     <a-layout-sider v-model:collapsed="collapsed" collapsible>
       <div class="logo" />
-      <a-menu :default-selected-keys="['1']" style v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
+      <a-menu style v-model:selectedKeys="selectedKeys" theme="dark" mode="inline" :open-keys="openKeys"
+        @openChange="onOpenChange">
         <!-- 图片logo -->
         <a-menu-item>
           <img />
@@ -11,7 +12,7 @@
 
         <!-- 登录 -->
         <a-menu-item key="1">
-          <router-link to="/">
+          <router-link to="/login">
             <pie-chart-outlined />
             <span>登录</span>
           </router-link>
@@ -33,10 +34,26 @@
               <span>客户</span>
             </span>
           </template>
-          <a-menu-item key="3">增加</a-menu-item>
-          <a-menu-item key="4">删除</a-menu-item>
-          <a-menu-item key="5">修改</a-menu-item>
-          <a-menu-item key="6">查看</a-menu-item>
+          <a-menu-item key="3">
+            <router-link to="/addUser">
+              增加
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="4">
+            <router-link to="/delUser">
+              删除
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="5">
+            <router-link to="/editUser">
+              修改
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="6">
+            <router-link to="/showUser">
+              查看
+            </router-link>
+          </a-menu-item>
         </a-sub-menu>
 
         <!-- 航班 -->
@@ -120,7 +137,9 @@
     <!-- 主体 -->
     <a-layout>
       <!-- 头部 -->
-      <a-layout-header style="background: #fff; padding: 0" />
+      <a-layout-header style="background: #fff; padding: 0">
+        <h1 style="text-align: center; font-weight: bolder;">航班预订系统 - 李奕哲 - 2021212205098</h1>
+      </a-layout-header>
 
       <!-- 内容 -->
       <a-layout-content style="margin: 0 16px">
@@ -141,7 +160,7 @@
 </template>
 <script>
 import { PieChartOutlined, DesktopOutlined, UserOutlined, TeamOutlined, FileOutlined } from '@ant-design/icons-vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, reactive, toRefs } from 'vue';
 export default defineComponent({
   components: {
     PieChartOutlined,
@@ -153,7 +172,26 @@ export default defineComponent({
   data() {
     return {
       collapsed: ref(false),
-      selectedKeys: ref(['1']),
+      selectedKeys: ref(['0']),
+    };
+  },
+  setup() {
+    const state = reactive({
+      rootSubmenuKeys: ['sub1', 'sub2', 'sub3', 'sub4', 'sub5', 'sub6'],
+      openKeys: [],
+      selectedKeys: [],
+    });
+    const onOpenChange = openKeys => {
+      const latestOpenKey = openKeys.find(key => state.openKeys.indexOf(key) === -1);
+      if (state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+        state.openKeys = openKeys;
+      } else {
+        state.openKeys = latestOpenKey ? [latestOpenKey] : [];
+      }
+    };
+    return {
+      ...toRefs(state),
+      onOpenChange,
     };
   },
 });
@@ -172,5 +210,4 @@ export default defineComponent({
 [data-theme='dark'] .site-layout .site-layout-background {
   background: #141414;
 }
-
 </style>
